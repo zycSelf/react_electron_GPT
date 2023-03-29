@@ -1,0 +1,28 @@
+@import "../../../../style/avatar.scss";
+@import "../../../../style/chat.scss";
+.answer {
+    display: flex;
+    height: auto;
+    width: 80%;
+    align-self: flex-start;
+    flex-direction: row;
+    margin:10px;
+    .answerContent {
+        @include answer;
+        white-space: pre-wrap;
+        background-color: aquamarine;
+        position: relative;
+        flex-direction: column;
+        > pre {
+            white-space: pre-wrap;
+        }
+        &::after {
+            border-color: transparent aquamarine transparent transparent;
+        }
+    }
+}
+.userAvatar {
+    @include avatar;
+    flex-shrink: 0;
+    background-image: url("../../../../../../assets/openai.png");
+}

@@ -1,0 +1,36 @@
+@mixin chat {
+    display: flex;
+    width: auto;
+    height: auto;
+    min-width: 200px;
+    background: cornflowerblue;
+    border-radius: 10px;
+    padding: 10px;
+    line-break: anywhere;
+    font-size: 12px;
+    line-height: 20px
+}
+@mixin ask {
+    @include chat;
+    &::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border: 10px solid black;
+    position: absolute;
+    right: -18px;
+    top: 5px;
+}}
+@mixin answer {
+    @include chat;
+    &::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    border: 10px solid black;
+    position: absolute;
+    left: -18px;
+    top: 5px;
+}}

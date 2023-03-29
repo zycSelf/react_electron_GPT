@@ -1,0 +1,109 @@
+@import '../style/layout.scss';
+@import '../style/util.scss';
+@import '../style/avatar.scss';
+.main {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: $bcColor;
+	.header {
+		@include flexCenter;
+		position: relative;
+		perspective: 200px;
+		flex: 0 0 50px;
+	}
+	.body {
+		@include flexCenter;
+		flex: 1 1 0;
+		overflow: auto !important;
+		border: $normalBorder;
+		flex-direction: row;
+		.left {
+			height: 100%;
+			flex: 0 0 120px;
+		}
+		.right {
+			height: 100%;
+			display: flex;
+			overflow: hidden;
+			flex: 1;
+			border-left: $normalBorder;
+		}
+	}
+	.footer {
+		@include flexCenter;
+		flex: 0 0 50px;
+	}
+}
+.userAvatar {
+	@include avatar;
+	// background-image: url('../../../assets/image.webp');
+	background-color: aliceblue;
+	position: fixed;
+	cursor: pointer;
+	overflow: hidden;
+	transition: transform width height ease-in-out 0.5s !important;
+	-webkit-app-region: drag;
+}
+.userAvatarAnimation {
+	transform: scale(1.2);
+}
+.gptRobot {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	border: 1px solid $bcColor;
+	transition: transform width height ease-in-out 0.5s !important;
+	display: flex;
+	border-radius: 10px;
+	overflow: hidden;
+	.gptBox {
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		.header {
+			@include flexCenter;
+			position: relative;
+			perspective: 200px;
+			flex: 0 0 50px;
+			.headerLeft {
+				flex: 1;
+				height: 100%;
+				-webkit-app-region: drag;
+			}
+			.headerOperate {
+				flex: 0 0 65px;
+				margin: 0 5px;
+				padding: 0 6px;
+			}
+		}
+		.body {
+			@include flexCenter;
+			flex: 1 1 0;
+			overflow: auto !important;
+			border: $normalBorder;
+			flex-direction: row;
+			.left {
+				height: 100%;
+				display: flex;
+				overflow: hidden;
+				flex: 1;
+			}
+			.right {
+				height: 100%;
+				flex: 0 0 200px;
+				border-left: $normalBorder;
+			}
+		}
+		.footer {
+			@include flexCenter;
+			flex: 0 0 50px;
+		}
+	}
+}
+.gptHidden {
+	width: 0;
+	height: 0;
+}

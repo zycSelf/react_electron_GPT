@@ -1,0 +1,11 @@
+{
+    "presets": [
+        "@babel/presets-react",
+        "@babel/presets-env",
+        "@babel/presets-typescript"
+    ],
+    "plugins": [
+        "@babel/plugin-proposal-class-properties",
+        "./babel/babel.plugin.js"
+    ]
+}

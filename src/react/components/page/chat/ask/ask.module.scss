@@ -1,0 +1,24 @@
+@import '../../../../style/avatar.scss';
+@import '../../../../style/chat.scss';
+.ask {
+	display: flex;
+	height: auto;
+	width: 80%;
+	align-self: flex-end;
+	flex-direction: row-reverse;
+	margin: 10px;
+	.askContent {
+		@include ask;
+		background-color: deepskyblue;
+		position: relative;
+		&::after {
+			border-color: transparent transparent transparent deepskyblue;
+		}
+	}
+}
+.userAvatar {
+	@include avatar;
+	flex-shrink: 0;
+	// background-image: url("../../../../../../assets/image.webp");
+	background-color: aliceblue;
+}

@@ -1,0 +1,19 @@
+@import '../../style/operate.scss';
+
+.appOperation {
+	@include appOperation;
+	&:hover {
+		.maxmize {
+			background-image: url('../../../../assets/operate/maxmize.svg');
+		}
+		.minmize {
+			background-image: url('../../../../assets/operate/minmize.svg');
+		}
+		.close {
+			background-image: url('../../../../assets/operate/close.svg');
+		}
+		.resize {
+			background-image: url('../../../../assets/operate/resize.svg');
+		}
+	}
+}

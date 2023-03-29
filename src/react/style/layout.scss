@@ -1,0 +1,17 @@
+@mixin flexCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+@mixin flexStart {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+@mixin flexBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+$bcColor: #f5f5f6;
+$normalBorder: 1px solid #ccc;

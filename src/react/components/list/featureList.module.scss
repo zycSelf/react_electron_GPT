@@ -1,0 +1,23 @@
+@import "../../style/layout.scss";
+.featureList {
+    display: flex;
+    height:100%;
+    flex-direction: column;
+    overflow-y: auto;
+    .featureItem {
+        @include flexStart;
+        width: 100%;
+        flex:0 0 40px;
+        padding: 0 5px;
+        font-size: 12px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        user-select: none;
+        text-decoration: none;
+        outline: none;
+        color: black;
+        &:hover {
+            background-color: rgba(85, 130, 243 , 0.2);
+        }
+    }
+}

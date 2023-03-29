@@ -1,0 +1,42 @@
+@import './layout.scss';
+@mixin operateBtn {
+	position: relative;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background-repeat: no-repeat;
+	background-size: 70%;
+	background-position: center;
+	&:active {
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background-color: rgba($color: #000000, $alpha: 0.5);
+		}
+	}
+}
+@mixin appOperation {
+	@include flexBetween;
+	flex: 1;
+	div {
+		@include flexCenter;
+		@include operateBtn;
+	}
+	.maxmize {
+		background-color: green;
+	}
+	.resize {
+		background-color: green;
+	}
+	.minmize {
+		background-color: yellow;
+	}
+	.close {
+		background-color: red;
+	}
+}
