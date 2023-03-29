@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentInfo } from '../../../../util/redux/reducer';
 import { StoreState } from '../../../../util/redux/store';
+import Styles from './upload.module.scss';
 
 const UploadFile = () => {
 	const dispatch = useDispatch();
@@ -29,10 +30,21 @@ const UploadFile = () => {
 		}
 	};
 	return (
-		<div>
-			<input type={'file'} ref={inputRef} onChange={handleFileChange} />
-			<div>{document.fileName}</div>
-			<div>{document.fileConversion}</div>
+		<div className={Styles.uploadArea}>
+			<input
+				className={Styles.fileInput}
+				type={'file'}
+				ref={inputRef}
+				onChange={handleFileChange}
+			/>
+			<div className={Styles.Precautions}>
+				<span>
+					目前仅支持pdf文档,由于GPT3.5模型存在token上限问题,请勿上传字数过多的文档。
+				</span>
+				<span>
+					目前暂未处理网络错误，如遇到长时间无返回或answer停止不动可能是网络原因导致。
+				</span>
+			</div>
 		</div>
 	);
 };

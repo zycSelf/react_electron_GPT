@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { v4 } from 'uuid';
 import { ChatParams, OpenAIApi } from '../../api/openAIApi';
 import {
-	ChatAnswer,
+	chatStop,
 	OpenAIChatChoice,
 	setChatResponse,
 	setDocumentConversion,
@@ -26,7 +26,7 @@ const connectSocket = ({ subscribeData, eventHandlers }: any) =>
 		ws.onopen = (e) => {
 			ws.send(JSON.stringify(subscribeData));
 		};
-		// ws.onclose = boundEventHandlers.onclose
+		ws.onclose = boundEventHandlers.onclose;
 		// ws.onerror = boundEventHandlers.onerror
 		ws.onmessage = boundEventHandlers.onmessage;
 		return ws.close;
@@ -53,11 +53,16 @@ function* fetchOpenAIChat(action: ChatAction): ReturnType<any> {
 							id: v4(),
 							choices: response.choices.map((choice: OpenAIChatChoice) => {
 								return {
-									...choice,
+									index: choice.index,
+									finish_reason: choice.finish_reason,
 									answerId: v4(),
+									message: choice.message ? choice.message : choice.delta,
 								};
 							}),
 						});
+					},
+					onclose: () => {
+						return chatStop();
 					},
 				},
 			});
@@ -80,6 +85,7 @@ function* fetchOpenAIChat(action: ChatAction): ReturnType<any> {
 					}),
 				}),
 			);
+			yield put(chatStop());
 		}
 	} catch (err) {
 		console.error(err);

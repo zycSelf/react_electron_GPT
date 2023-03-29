@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 } from 'uuid';
-import { setChatRequest } from '../../../util/redux/reducer';
+import { chatStart, setChatRequest } from '../../../util/redux/reducer';
+import { StoreState } from '../../../util/redux/store';
 import ChatBody from './body/chatBody';
 import Styles from './chat.module.scss';
 const Chat = () => {
 	const [chatValue, setChatValue] = useState<string>('');
+	const chatList = useSelector(
+		(state: StoreState) => state.openAISlice.chatList,
+	);
+	const isChat = useSelector((state: StoreState) => state.openAISlice.isChat);
 	const dispatch = useDispatch();
 	const handleSendChatValue = () => {
 		if (chatValue.length === 0) {
 			console.log('chat length is empty');
 			return;
 		} else {
-			console.log(chatValue);
 			const message = [{ role: 'user', content: chatValue }];
 			dispatch(
 				setChatRequest({
@@ -21,16 +25,24 @@ const Chat = () => {
 					message: message.map((item) => {
 						return {
 							...item,
-							askId: v4(),
 						};
 					}),
 				}),
 			);
+			chatStart();
 			// todo 携带上下文
 			dispatch({
 				type: 'OpenAIChat',
 				payload: {
-					messages: message,
+					messages: chatList
+						.map((chat) => {
+							if (chat.type === 'ask' || chat.type === 'document') {
+								return chat.message[0];
+							} else {
+								return chat.choices[0].message;
+							}
+						})
+						.concat(message),
 				},
 			});
 			setChatValue('');
@@ -57,7 +69,9 @@ const Chat = () => {
 					/>
 				</div>
 				<div className={Styles.chatSend}>
-					<button onClick={() => handleSendChatValue()}>Send</button>
+					<button onClick={() => (isChat ? handleSendChatValue() : null)}>
+						Send
+					</button>
 				</div>
 			</div>
 		</div>

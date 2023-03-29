@@ -1,7 +1,7 @@
 import { app, BrowserWindow, ipcMain, Tray, Menu, nativeImage } from 'electron';
 import service from './service/service';
 import path from 'path';
-const isDev = process.env.NODE_ENV !== 'development';
+const isDev = process.env.NODE_ENV === 'development';
 let windowSizeBeforMaxmize: Electron.Rectangle | null = null;
 let mainWindow: BrowserWindow | null = null;
 const createWindow = () => {
@@ -19,10 +19,12 @@ const createWindow = () => {
 	service.listen(8088, () => {
 		console.log('server is running');
 	});
-
-	isDev
-		? mainWindow.loadURL('http://localhost:3000/#')
-		: mainWindow.loadFile('dist/index.html');
+	// TODO set NODE_ENV 失效？ 待解决。
+	// console.log(isDev);
+	mainWindow.loadURL('http://localhost:3000/#');
+	// isDev
+	// 	? mainWindow.loadURL('http://localhost:3000/#')
+	// 	: mainWindow.loadFile('dist/index.html');
 };
 
 function IpcOperate() {

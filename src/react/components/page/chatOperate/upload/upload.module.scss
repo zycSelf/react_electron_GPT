@@ -1,0 +1,19 @@
+.uploadArea {
+	position: relative;
+	flex: 1;
+	display: flex;
+	color: #666666;
+	text-indent: 2em;
+	.fileInput {
+		height: 50px;
+	}
+	.Precautions {
+		position: absolute;
+		bottom: 0;
+		font-size: 12px;
+		padding: 10px;
+		> span {
+			display: block;
+		}
+	}
+}

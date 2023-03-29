@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ChatAskItem } from '../../api/openAIApi';
 export interface OpenAIApiState {
 	openAIConfig: OpenAIApiConfig;
-	chatList: Array<ChatAsk | ChatAnswer>;
+	isChat: boolean;
+	chatList: Array<ChatAsk | ChatAnswer | ChatDocument>;
 	chatError: {
 		message: string;
 	};
@@ -12,6 +13,15 @@ export interface OpenAIApiState {
 		hasData: boolean;
 		status: 'idle' | 'loading' | 'success' | 'error';
 	};
+}
+
+export interface ChatDocument {
+	type: 'document';
+	message: Array<DocumentInChat>; //暂定string
+}
+interface DocumentInChat {
+	role: string;
+	content: string;
 }
 export interface ChatAsk {
 	type: 'ask';
@@ -49,6 +59,7 @@ const initialState: OpenAIApiState = {
 		apiKey: '',
 	},
 	chatList: [],
+	isChat: false,
 	chatError: {
 		message: 'error',
 	},
@@ -77,25 +88,48 @@ const openAiSlice = createSlice({
 		setChatResponse: (state, action) => {
 			console.log('setChatResponse', action);
 			const answerList = state.chatList.filter(
-				(item: ChatAsk | ChatAnswer) => item.type === 'answer',
+				(item: ChatAsk | ChatAnswer | ChatDocument) => item.type === 'answer',
 			) as Array<ChatAnswer>;
 			const hasAnswer: boolean = answerList.some(
 				(item: ChatAnswer) => item.created === action.payload.created,
 			);
 			if (hasAnswer) {
-				state.chatList = state.chatList.map((item: ChatAsk | ChatAnswer) => {
-					if (
-						item.type === 'ask' ||
-						(item.type === 'answer' && item.created !== action.payload.created)
-					) {
-						return item;
-					} else {
-						return {
-							...item,
-							choices: item.choices.concat(action.payload.choices),
-						};
-					}
-				});
+				state.chatList = state.chatList.map(
+					(item: ChatAsk | ChatAnswer | ChatDocument) => {
+						if (
+							item.type === 'ask' ||
+							item.type === 'document' ||
+							(item.type === 'answer' &&
+								item.created !== action.payload.created)
+						) {
+							return item;
+						} else {
+							const content =
+								(item.choices[0].message?.content
+									? item.choices[0].message?.content
+									: '') +
+								action.payload.choices
+									.map((choice: any) => {
+										const text = choice.message?.content;
+										console.log('text', text);
+										return text ? text : '';
+									})
+									.join('');
+							return {
+								...item,
+								choices: [
+									{
+										...item.choices[0],
+										message: {
+											...item.choices[0].message,
+											content,
+										},
+									},
+								],
+							};
+						}
+					},
+				);
 			} else {
 				state.chatList = state.chatList.concat({
 					type: 'answer',
@@ -116,12 +150,29 @@ const openAiSlice = createSlice({
 			};
 		},
 		setDocumentConversion: (state, action) => {
-			console.log('setDocumentConversion', action);
-			state.document = {
+			console.log('setDocumentConversion', action.payload);
+			(state.chatList = state.chatList
+				.filter((chat) => chat.type !== 'document')
+				.concat({
+					type: 'document',
+					message: [
+						{
+							role: 'user',
+							content: `上传的文档的信息为：${action.payload.fileConversion}`,
+						},
+					],
+				})),
+			(state.document = {
 				...state.document,
 				fileConversion: action.payload.fileConversion,
 				status: 'success',
-			};
+			});
+		},
+		chatStart: (state) => {
+			state.isChat = true;
+		},
+		chatStop: (state) => {
+			state.isChat = false;
 		},
 	},
 });
@@ -133,5 +184,7 @@ export const {
 	setChatError,
 	setDocumentInfo,
 	setDocumentConversion,
+	chatStart,
+	chatStop,
 } = openAiSlice.actions;
 export default openAiSlice.reducer;

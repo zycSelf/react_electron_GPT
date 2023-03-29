@@ -6,6 +6,7 @@ import {
 	ChatAsk,
 	ChatAnswer,
 	OpenAIChatChoice,
+	ChatDocument,
 } from '../../../../util/redux/reducer';
 import { ChatAskItem } from '../../../../api/openAIApi';
 import Ask from '../ask/ask';
@@ -20,12 +21,16 @@ const ChatBody = () => {
 	}, [chatList]);
 	const renderChatBody = () => {
 		return chatList.map(
-			<T extends ChatAsk | ChatAnswer>(askOrAnswer: T): ReactElement => {
+			<T extends ChatAsk | ChatAnswer | ChatDocument>(
+				askOrAnswer: T,
+			): ReactElement | null => {
 				switch (askOrAnswer.type) {
 				case 'ask':
 					return <Ask key={askOrAnswer.id} data={askOrAnswer} />;
 				case 'answer':
 					return <Answer key={askOrAnswer.id} data={askOrAnswer} />;
+				case 'document':
+					return null;
 				default:
 					return <>error</>;
 				}
