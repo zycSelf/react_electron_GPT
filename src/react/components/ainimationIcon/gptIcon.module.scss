@@ -1,0 +1,72 @@
+@import '../../style/layout.scss';
+.titleBox {
+	@include flexCenter;
+	height: 40px;
+	width: 40px;
+	position: relative;
+	color: $themeColor;
+	.rotate1 {
+		display: block;
+		height: 40px;
+		width: 40px;
+		position: absolute;
+		background-color: $transparent;
+		border: 1px solid $themeColor;
+		border-radius: 50%;
+		animation: rotate1 2s ease-in-out infinite;
+	}
+	.rotate2 {
+		display: block;
+		height: 40px;
+		width: 40px;
+		position: absolute;
+		background-color: $transparent;
+		border: 1px solid $themeColor;
+		border-radius: 50%;
+		animation: rotate2 4s ease-in-out infinite;
+	}
+	.rotate3 {
+		display: block;
+		height: 40px;
+		width: 40px;
+		position: absolute;
+		background-color: $transparent;
+		border: 1px solid $themeColor;
+		border-radius: 50%;
+		animation: rotate3 3s ease-in-out infinite;
+	}
+	.title {
+		font-size: 15px;
+		font-weight: bolder;
+		position: relative;
+	}
+}
+
+@keyframes rotate1 {
+	0% {
+		transform: rotate3d(0, 0, 0, 0deg);
+	}
+
+	100% {
+		transform: rotate3d(1, 1, 1, 360deg);
+	}
+}
+@keyframes rotate2 {
+	0% {
+		transform: rotate3d(0, 0, 0, 0deg);
+	}
+
+	100% {
+		transform: rotate3d(-1, 1, -1, 360deg);
+	}
+}
+
+@keyframes rotate3 {
+	0% {
+		transform: rotate3d(0, 0, 0, 0deg);
+	}
+
+	100% {
+		transform: rotate3d(1, -1, 1, 360deg);
+	}
+}

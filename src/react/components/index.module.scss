@@ -70,40 +70,6 @@
 				flex: 1;
 				height: 100%;
 				-webkit-app-region: drag;
-				.titleBox {
-					@include flexCenter;
-					height: 40px;
-					width: 40px;
-					position: relative;
-					color: $themeColor;
-					&::before {
-						content: '';
-						display: block;
-						height: 40px;
-						width: 40px;
-						position: absolute;
-						background-color: $transparent;
-						border: 1px solid $themeColor;
-						border-radius: 50%;
-						animation: rotateX 2s ease-in-out infinite;
-					}
-					&::after {
-						content: '';
-						display: block;
-						height: 40px;
-						width: 40px;
-						position: absolute;
-						background-color: $transparent;
-						border: 1px solid $themeColor;
-						border-radius: 50%;
-						animation: rotateY 4s ease-in-out infinite;
-					}
-					.title {
-						font-size: 15px;
-						font-weight: bolder;
-						position: relative;
-					}
-				}
 			}
 			.headerOperate {
 				flex: 0 0 65px;
@@ -135,21 +101,4 @@
 .gptHidden {
 	width: 0;
 	height: 0;
-}
-
-@keyframes rotateX {
-	0% {
-		transform: rotate3d(0, 0, 0, 0deg);
-	}
-	100% {
-		transform: rotate3d(1, 1, 1, 360deg);
-	}
-}
-@keyframes rotateY {
-	0% {
-		transform: rotate3d(0, 0, 0, 0deg);
-	}
-	100% {
-		transform: rotate3d(-1, -1, -1, 360deg);
-	}
 }

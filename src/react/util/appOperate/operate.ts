@@ -1,13 +1,18 @@
-const { ipcRenderer } = window.electron;
+let ipcRenderer: any = null;
+
+ipcRenderer = window.electron?.ipcRenderer;
 export function appClose() {
-	ipcRenderer.send('appClose');
+	ipcRenderer && ipcRenderer.send('appClose');
 }
 export function appMaxmize() {
-	ipcRenderer.send('appMaxmize');
+	ipcRenderer && ipcRenderer.send('appMaxmize');
 }
 export function appMinmize() {
-	ipcRenderer.send('appMinmize');
+	ipcRenderer && ipcRenderer.send('appMinmize');
 }
 export function appResize() {
-	ipcRenderer.send('appResize');
+	ipcRenderer && ipcRenderer.send('appResize');
+}
+export function apiKeyInput() {
+	ipcRenderer && ipcRenderer.send('apiKeyInput');
 }

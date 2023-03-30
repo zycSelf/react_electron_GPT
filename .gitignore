@@ -9,3 +9,4 @@ esBuilder/
 .env
 extends/
 yarn-error.log
+test/

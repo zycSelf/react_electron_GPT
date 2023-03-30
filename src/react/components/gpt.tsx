@@ -5,6 +5,7 @@ import Chat from './page/chat/chat';
 import withDraggable from './draggable/draggable';
 import AppHeaderOperate from './appHeader/headerOperate';
 import ChatOperate from './page/chatOperate/chatOperate';
+import GPTIcon from './ainimationIcon/gptIcon';
 
 const Gpt = () => {
 	const [mouseEnterCard, setMouseEnterCard] = useState<boolean>(false);
@@ -32,9 +33,7 @@ const Gpt = () => {
 				})}>
 				<div className={classnames(Styles.header)}>
 					<div className={Styles.headerLeft}>
-						<div className={Styles.titleBox}>
-							<span className={Styles.title}>GPT</span>
-						</div>
+						<GPTIcon />
 					</div>
 					<div className={Styles.headerOperate}>
 						<AppHeaderOperate />

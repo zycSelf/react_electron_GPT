@@ -11,7 +11,7 @@ import service from './service/service';
 import path from 'path';
 const isDev = process.env.NODE_ENV === 'development';
 let windowSizeBeforMaxmize: Electron.Rectangle | null = null;
-let mainWindow: BrowserWindow | null = null;
+let mainWindow: BrowserWindow | undefined = undefined;
 let tray: Tray | null = null;
 const image = nativeImage.createFromPath(
 	path.join(__dirname, '../../assets/gpt/newiconTemplate.png'),
@@ -36,8 +36,8 @@ const createWindow = () => {
 	});
 	// TODO set NODE_ENV 失效？ 待解决。
 	// console.log(isDev);
-	mainWindow.loadFile('dist/index.html');
-	// mainWindow.loadURL('http://localhost:3000/#');
+	// mainWindow.loadFile('dist/index.html');
+	mainWindow.loadURL('http://localhost:3000/#');
 	// isDev
 	// 	? mainWindow.loadURL('http://localhost:3000/#')
 	// 	: mainWindow.loadFile('dist/index.html');
@@ -62,6 +62,17 @@ function IpcOperate() {
 		if (windowSizeBeforMaxmize) {
 			mainWindow?.setBounds(windowSizeBeforMaxmize, true);
 		}
+	});
+	ipcMain.on('apiKeyInput', (event: Electron.IpcMainEvent, params) => {
+		const apiKeyWindow = new BrowserWindow({
+			width: 400,
+			height: 300,
+			resizable: false,
+			parent: mainWindow,
+		});
+		apiKeyWindow.on('ready-to-show', () => {
+			apiKeyWindow.show();
+		});
 	});
 }
 const contextMenu = Menu.buildFromTemplate([
