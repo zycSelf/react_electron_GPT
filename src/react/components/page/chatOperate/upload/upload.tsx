@@ -10,23 +10,20 @@ const UploadFile = () => {
 	const document = useSelector(
 		(state: StoreState) => state.openAISlice.document,
 	);
+	const fetchConversion = (file: File) => {
+		const formData = new FormData();
+		formData.append('file', file);
+		dispatch(
+			setDocumentInfo({
+				fileName: file.name,
+			}),
+		);
+		dispatch({ type: 'FileConversion', payload: formData });
+	};
 	const handleFileChange = () => {
-		if (inputRef.current) {
+		if (inputRef.current && inputRef.current.files) {
 			const fileList = inputRef.current.files;
-			const formData = new FormData();
-			if (fileList && fileList.length > 0) {
-				formData.append('file', fileList[0]);
-				dispatch(
-					setDocumentInfo({
-						fileName: fileList[0].name,
-					}),
-				);
-				// const reader = new FileReader();
-				// reader.readAsDataURL(fileList[0]);
-				// reader.onload = () => {
-				dispatch({ type: 'FileConversion', payload: formData });
-				// };
-			}
+			fetchConversion(fileList[0]);
 		}
 	};
 	return (
@@ -37,6 +34,20 @@ const UploadFile = () => {
 				ref={inputRef}
 				onChange={handleFileChange}
 			/>
+			<div
+				onDrop={(e: React.DragEvent) => {
+					e.preventDefault();
+					console.log(e.dataTransfer.files[0]);
+					fetchConversion(e.dataTransfer.files[0]);
+				}}
+				onDragOver={(e: React.DragEvent) => {
+					e.preventDefault();
+					console.log('dragOvers');
+				}}
+				onClick={() => {
+					inputRef.current?.click();
+				}}
+				className={Styles.upload}></div>
 			<div className={Styles.Precautions}>
 				<span>
 					目前仅支持pdf文档,由于GPT3.5模型存在token上限问题,请勿上传字数过多的文档。

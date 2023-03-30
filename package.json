@@ -100,7 +100,11 @@
       "allowToChangeInstallationDirectory": true
     },
     "win": {
+      "icon": "assets/gpt/gpt.png",
       "target": "nsis"
+    },
+    "mac": {
+      "icon": "assets/gpt/gpt.icns"
     },
     "files": [
       "dist/**/*",

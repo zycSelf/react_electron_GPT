@@ -1,17 +1,40 @@
+@import '../../../../style/layout.scss';
 .uploadArea {
 	position: relative;
 	flex: 1;
 	display: flex;
 	color: #666666;
-	text-indent: 2em;
+	justify-content: center;
 	.fileInput {
 		height: 50px;
+		display: none;
+	}
+	.upload {
+		@include flexCenter;
+		width: 100px;
+		height: 100px;
+		border: 1px solid gainsboro;
+		border-style: dashed;
+		align-self: center;
+		cursor: pointer;
+		position: relative;
+		&::before {
+			content: '+'; // TODO: 改字体图标
+			display: flex;
+			position: absolute;
+		}
+		&:hover {
+			border: 1px solid #5582f3;
+			border-style: dashed;
+			color: #5582f3;
+		}
 	}
 	.Precautions {
 		position: absolute;
 		bottom: 0;
 		font-size: 12px;
 		padding: 10px;
+		text-indent: 2em;
 		> span {
 			display: block;
 		}
