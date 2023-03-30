@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { StoreState } from '../../../../util/redux/store';
 import Styles from './chatBody.module.scss';
@@ -13,11 +13,18 @@ import Ask from '../ask/ask';
 import Answer from '../answer/answer';
 
 const ChatBody = () => {
+	const chatBodyRef = useRef<HTMLDivElement>(null);
 	const chatList = useSelector(
 		(state: StoreState) => state.openAISlice.chatList,
 	);
 	useEffect(() => {
-		console.log(chatList);
+		if (chatBodyRef.current) {
+			const container = chatBodyRef.current;
+			const observer = new MutationObserver(() => {
+				container.scrollTop = container.scrollHeight;
+			});
+			observer.observe(container, { childList: true });
+		}
 	}, [chatList]);
 	const renderChatBody = () => {
 		return chatList.map(
@@ -37,7 +44,11 @@ const ChatBody = () => {
 			},
 		);
 	};
-	return <div className={Styles.chatBody}>{renderChatBody()}</div>;
+	return (
+		<div ref={chatBodyRef} className={Styles.chatBody}>
+			{renderChatBody()}
+		</div>
+	);
 };
 
 export default ChatBody;

@@ -1,9 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentInfo } from '../../../../util/redux/reducer';
 import { StoreState } from '../../../../util/redux/store';
+import UploadCard from '../uploadCard/uploadCard';
 import Styles from './upload.module.scss';
-
 const UploadFile = () => {
 	const dispatch = useDispatch();
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -23,12 +23,15 @@ const UploadFile = () => {
 	const handleFileChange = () => {
 		if (inputRef.current && inputRef.current.files) {
 			const fileList = inputRef.current.files;
-			fetchConversion(fileList[0]);
+			if (fileList.length > 0) {
+				fetchConversion(fileList[0]);
+			}
 		}
 	};
 	return (
 		<div className={Styles.uploadArea}>
 			<input
+				accept={'.pdf'}
 				className={Styles.fileInput}
 				type={'file'}
 				ref={inputRef}
@@ -37,7 +40,6 @@ const UploadFile = () => {
 			<div
 				onDrop={(e: React.DragEvent) => {
 					e.preventDefault();
-					console.log(e.dataTransfer.files[0]);
 					fetchConversion(e.dataTransfer.files[0]);
 				}}
 				onDragOver={(e: React.DragEvent) => {
@@ -47,7 +49,9 @@ const UploadFile = () => {
 				onClick={() => {
 					inputRef.current?.click();
 				}}
-				className={Styles.upload}></div>
+				className={Styles.upload}>
+				{document.status === 'idle' ? null : <UploadCard />}
+			</div>
 			<div className={Styles.Precautions}>
 				<span>
 					目前仅支持pdf文档,由于GPT3.5模型存在token上限问题,请勿上传字数过多的文档。

@@ -5,11 +5,6 @@ import Chat from './page/chat/chat';
 import withDraggable from './draggable/draggable';
 import AppHeaderOperate from './appHeader/headerOperate';
 import ChatOperate from './page/chatOperate/chatOperate';
-declare global {
-	interface Window {
-		ipcApi?: any;
-	}
-}
 
 const Gpt = () => {
 	const [mouseEnterCard, setMouseEnterCard] = useState<boolean>(false);
@@ -27,9 +22,6 @@ const Gpt = () => {
 				},
 			)}
 			onClick={() => {
-				if (window.ipcApi) {
-					window.ipcApi.clickGPT();
-				}
 				setShowGPT(true);
 			}}
 			onMouseEnter={() => setMouseEnterCard(true)}
@@ -39,7 +31,11 @@ const Gpt = () => {
 					[Styles.gptHidden]: !showGPT,
 				})}>
 				<div className={classnames(Styles.header)}>
-					<div className={Styles.headerLeft}></div>
+					<div className={Styles.headerLeft}>
+						<div className={Styles.titleBox}>
+							<span className={Styles.title}>GPT</span>
+						</div>
+					</div>
 					<div className={Styles.headerOperate}>
 						<AppHeaderOperate />
 					</div>

@@ -1,17 +1,35 @@
 @mixin flexCenter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 @mixin flexStart {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 }
 @mixin flexBetween {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 $bcColor: #f5f5f6;
 $normalBorder: 1px solid #ccc;
+$themeColor: #409eff;
+$themeLightColor: #ecf5ff;
+$themeMidColor: #b3d8ff;
+$successColor: #67c23a;
+$warningColor: #e6a23c;
+$dangerColor: #f56c6c;
+$infoColor: #909399;
+$mainTextColor: #303133;
+$normalTextColor: #606266;
+$minorTextColor: #909399;
+$placeholdTextColor: #c0c4cc;
+$level1BorderColor: #dcdfe6;
+$level2BorderColor: #e4e7ed;
+$level3BorderColor: #ebeef5;
+$level4BorderColor: #f2f6fc;
+$basicBlack: #000000;
+$basicWhite: #ffffff;
+$transparent: transparent;

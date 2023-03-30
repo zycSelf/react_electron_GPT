@@ -1,20 +1,13 @@
+const { ipcRenderer } = window.electron;
 export function appClose() {
-	if (window.ipcApi) {
-		window.ipcApi.appClose();
-	}
+	ipcRenderer.send('appClose');
 }
-export function appMaximize() {
-	if (window.ipcApi) {
-		window.ipcApi.appMaxmize();
-	}
+export function appMaxmize() {
+	ipcRenderer.send('appMaxmize');
 }
-export function appMinimize() {
-	if (window.ipcApi) {
-		window.ipcApi.appMinmize();
-	}
+export function appMinmize() {
+	ipcRenderer.send('appMinmize');
 }
 export function appResize() {
-	if (window.ipcApi) {
-		window.ipcApi.appResize();
-	}
+	ipcRenderer.send('appResize');
 }

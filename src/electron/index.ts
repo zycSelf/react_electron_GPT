@@ -26,6 +26,8 @@ const createWindow = () => {
 		// resizable: false,
 		webPreferences: {
 			// navigateOnDragDrop: true,
+			nodeIntegration: true,
+			contextIsolation: false,
 			preload: path.resolve(__dirname, 'preload.js'),
 		},
 	});
@@ -34,7 +36,8 @@ const createWindow = () => {
 	});
 	// TODO set NODE_ENV 失效？ 待解决。
 	// console.log(isDev);
-	mainWindow.loadURL('http://localhost:3000/#');
+	mainWindow.loadFile('dist/index.html');
+	// mainWindow.loadURL('http://localhost:3000/#');
 	// isDev
 	// 	? mainWindow.loadURL('http://localhost:3000/#')
 	// 	: mainWindow.loadFile('dist/index.html');
@@ -61,7 +64,6 @@ function IpcOperate() {
 		}
 	});
 }
-
 const contextMenu = Menu.buildFromTemplate([
 	{
 		label: 'View on GitHub',
@@ -84,6 +86,20 @@ const contextMenu = Menu.buildFromTemplate([
 		},
 	},
 ]);
+
+// const dockMenu = Menu.buildFromTemplate([
+// 	{
+// 		label: 'New Window',
+// 		click() {
+// 			console.log('New Window');
+// 		},
+// 	},
+// 	{
+// 		label: 'New Window with Settings',
+// 		submenu: [{ label: 'Basic' }, { label: 'Pro' }],
+// 	},
+// 	{ label: 'New Command...' },
+// ]);
 const setTray = () => {
 	const icon = image;
 	icon.setTemplateImage(true);
@@ -91,17 +107,40 @@ const setTray = () => {
 	tray.on('right-click', () => {
 		tray?.popUpContextMenu(contextMenu);
 	});
-};
-app.whenReady().then(() => {
-	IpcOperate();
-	createWindow();
-	setTray();
-	app.on('activate', () => {
-		if (BrowserWindow.getAllWindows().length === 0) {
-			createWindow();
+	tray.on('click', () => {
+		const trayBounds = tray?.getBounds();
+		if (trayBounds) {
+			mainWindow?.setBounds(
+				{
+					x: trayBounds.x - 250,
+					y: trayBounds.y,
+					width: 500,
+					height: 600,
+				},
+				true,
+			);
 		}
+		mainWindow && mainWindow.show();
 	});
-});
+};
+app
+	.whenReady()
+	.then(() => {
+		// if (process.platform === 'darwin') {
+		// 	app.dock.setMenu(dockMenu);
+		// }
+	})
+	.then(() => {
+		IpcOperate();
+		createWindow();
+		setTray();
+		ipcMain.emit('test', '12312312');
+		app.on('activate', () => {
+			if (BrowserWindow.getAllWindows().length === 0) {
+				createWindow();
+			}
+		});
+	});
 
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {

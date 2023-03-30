@@ -9,8 +9,8 @@ const getOpenAI = (authorization: any) => {
 };
 
 const getChatStream = async (subscribeData: any, ws: any) => {
-	const openai = getOpenAI(subscribeData.apiKey);
 	try {
+		const openai = getOpenAI(subscribeData.apiKey);
 		const openaiResult = (await openai.createChatCompletion(
 			subscribeData.payload,
 			{ responseType: 'stream' },
@@ -29,14 +29,24 @@ const getChatStream = async (subscribeData: any, ws: any) => {
 				}
 				try {
 					const parsed = JSON.parse(message);
-					ws.send(JSON.stringify(parsed));
+					ws.send(
+						JSON.stringify({
+							type: 'chat',
+							data: parsed,
+						}),
+					);
 				} catch (error) {
-					console.error('Could not JSON parse stream message', message, error);
+					throw new Error('Could not JSON parse stream message');
 				}
 			}
 		});
 	} catch (error) {
-		console.log(error);
+		ws.send(
+			JSON.stringify({
+				type: 'error',
+				data: error,
+			}),
+		);
 	}
 };
 

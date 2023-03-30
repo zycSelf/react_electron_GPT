@@ -3,6 +3,7 @@ import { bindActionCreators } from 'redux';
 import { v4 } from 'uuid';
 import { ChatParams, OpenAIApi } from '../../api/openAIApi';
 import {
+	chatError,
 	chatStop,
 	OpenAIChatChoice,
 	setChatResponse,
@@ -27,7 +28,7 @@ const connectSocket = ({ subscribeData, eventHandlers }: any) =>
 			ws.send(JSON.stringify(subscribeData));
 		};
 		ws.onclose = boundEventHandlers.onclose;
-		// ws.onerror = boundEventHandlers.onerror
+		ws.onerror = boundEventHandlers.onerror;
 		ws.onmessage = boundEventHandlers.onmessage;
 		return ws.close;
 	});
@@ -48,18 +49,34 @@ function* fetchOpenAIChat(action: ChatAction): ReturnType<any> {
 				eventHandlers: {
 					onmessage: (wsObj: any) => {
 						const response = JSON.parse(wsObj.data);
-						return setChatResponse({
-							...response,
-							id: v4(),
-							choices: response.choices.map((choice: OpenAIChatChoice) => {
-								return {
-									index: choice.index,
-									finish_reason: choice.finish_reason,
-									answerId: v4(),
-									message: choice.message ? choice.message : choice.delta,
-								};
-							}),
-						});
+						console.log(response);
+						if (response.type === 'chat') {
+							return setChatResponse({
+								...response.data,
+								id: v4(),
+								choices: response.data.choices.map(
+									(choice: OpenAIChatChoice) => {
+										return {
+											index: choice.index,
+											finish_reason: choice.finish_reason,
+											answerId: v4(),
+											message: choice.message ? choice.message : choice.delta,
+										};
+									},
+								),
+							});
+						} else if (response.type === 'error') {
+							return chatError();
+						} else {
+							return chatStop();
+						}
+					},
+					onerror: (err: string) => {
+						const error = JSON.parse(err);
+						console.log(error);
+						return chatError();
+						// return setChatError({
+						// })
 					},
 					onclose: () => {
 						return chatStop();
@@ -94,7 +111,6 @@ function* fetchOpenAIChat(action: ChatAction): ReturnType<any> {
 
 function* fetchConversion(action: conversionAction): ReturnType<any> {
 	try {
-		console.log(action);
 		const file = action.payload;
 		const response = yield call(OpenAIApi.fileConversion, file);
 		console.log(response.data);
@@ -104,7 +120,7 @@ function* fetchConversion(action: conversionAction): ReturnType<any> {
 			}),
 		);
 	} catch (err) {
-		console.error(err);
+		console.error('sagaDocError', err);
 	}
 }
 

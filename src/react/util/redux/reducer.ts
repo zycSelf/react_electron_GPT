@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { v4 } from 'uuid';
 import { ChatAskItem } from '../../api/openAIApi';
 export interface OpenAIApiState {
 	openAIConfig: OpenAIApiConfig;
-	isChat: boolean;
-	chatList: Array<ChatAsk | ChatAnswer | ChatDocument>;
-	chatError: {
-		message: string;
+	isChat: {
+		status: boolean;
+		created: string | number;
 	};
+	chatList: Array<ChatAsk | ChatAnswer | ChatDocument>;
 	document: {
 		fileName: string;
 		fileConversion: string;
@@ -33,6 +34,7 @@ export interface ChatAnswer {
 	type: 'answer';
 	id: number | string;
 	created?: number | string;
+	status: 'chat' | 'done' | 'error';
 	choices: Array<OpenAIChatChoice>;
 }
 export interface OpenAIApiConfig {
@@ -59,9 +61,9 @@ const initialState: OpenAIApiState = {
 		apiKey: '',
 	},
 	chatList: [],
-	isChat: false,
-	chatError: {
-		message: 'error',
+	isChat: {
+		status: false,
+		created: '',
 	},
 	document: {
 		fileName: '',
@@ -111,7 +113,6 @@ const openAiSlice = createSlice({
 								action.payload.choices
 									.map((choice: any) => {
 										const text = choice.message?.content;
-										console.log('text', text);
 										return text ? text : '';
 									})
 									.join('');
@@ -131,15 +132,24 @@ const openAiSlice = createSlice({
 					},
 				);
 			} else {
-				state.chatList = state.chatList.concat({
-					type: 'answer',
-					...action.payload,
-				});
+				state.chatList = state.chatList
+					.filter((item) => {
+						if ('created' in item) {
+							return item.created !== 'startChat';
+						} else {
+							return item;
+						}
+					})
+					.concat({
+						type: 'answer',
+						status: 'chat',
+						...action.payload,
+					});
+				state.isChat = {
+					...state.isChat,
+					created: action.payload.created,
+				};
 			}
-		},
-		setChatError: (state, action) => {
-			console.log('setChatError', action);
-			state.chatError = action.payload;
 		},
 		setDocumentInfo: (state, action) => {
 			console.log('setDocumentInfo', action);
@@ -169,10 +179,54 @@ const openAiSlice = createSlice({
 			});
 		},
 		chatStart: (state) => {
-			state.isChat = true;
+			console.log('startChat');
+			state.chatList = state.chatList.concat({
+				type: 'answer',
+				id: v4(),
+				created: 'startChat',
+				status: 'chat',
+				choices: [],
+			});
+			state.isChat = {
+				status: true,
+				created: 'startChat',
+			};
 		},
 		chatStop: (state) => {
-			state.isChat = false;
+			state.chatList.map((item: ChatAsk | ChatAnswer | ChatDocument) => {
+				if (item.type === 'answer' && item.created === state.isChat.created) {
+					return {
+						...item,
+						status: 'done',
+					};
+				} else {
+					return item;
+				}
+			});
+			state.isChat = {
+				status: false,
+				created: '',
+			};
+		},
+		chatError: (state) => {
+			console.log('chatError');
+			state.chatList = state.chatList.map(
+				(item: ChatAsk | ChatAnswer | ChatDocument) => {
+					if (item.type === 'answer' && item.created === state.isChat.created) {
+						return {
+							...item,
+							created: v4(),
+							status: 'error',
+						};
+					} else {
+						return item;
+					}
+				},
+			);
+			state.isChat = {
+				status: false,
+				created: '',
+			};
 		},
 	},
 });
@@ -181,10 +235,10 @@ export const {
 	setOpenAIConfig,
 	setChatRequest,
 	setChatResponse,
-	setChatError,
 	setDocumentInfo,
 	setDocumentConversion,
 	chatStart,
 	chatStop,
+	chatError,
 } = openAiSlice.actions;
 export default openAiSlice.reducer;

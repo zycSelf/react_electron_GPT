@@ -11,14 +11,24 @@ import { fileToString } from '../util';
 expressWS(openAIRouter);
 openAIRouter.ws('/WS', (ws: any, req: any) => {
 	ws.on('close', () => {
-		ws.send(JSON.stringify('连接断开'));
+		ws.send(
+			JSON.stringify({
+				type: 'close',
+				data: null,
+			}),
+		);
 	});
-	ws.on('error', (err: any) => {
-		ws.send(JSON.stringify(err));
+	ws.on('error', (err: Error) => {
+		ws.send(
+			JSON.stringify({
+				type: 'error',
+				data: err,
+			}),
+		);
+		ws.close();
 	});
 	ws.on('message', (data: any) => {
 		const subscribeData = JSON.parse(data);
-		console.log(subscribeData);
 		getChatStream(subscribeData, ws);
 	});
 });

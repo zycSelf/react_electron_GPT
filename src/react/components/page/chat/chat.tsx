@@ -16,6 +16,9 @@ const Chat = () => {
 		if (chatValue.length === 0) {
 			console.log('chat length is empty');
 			return;
+		} else if (isChat.status) {
+			console.log('isChat is true');
+			return;
 		} else {
 			const message = [{ role: 'user', content: chatValue }];
 			dispatch(
@@ -29,7 +32,7 @@ const Chat = () => {
 					}),
 				}),
 			);
-			chatStart();
+			dispatch(chatStart());
 			// todo 携带上下文
 			dispatch({
 				type: 'OpenAIChat',
@@ -39,7 +42,9 @@ const Chat = () => {
 							if (chat.type === 'ask' || chat.type === 'document') {
 								return chat.message[0];
 							} else {
-								return chat.choices[0].message;
+								if (chat.status !== 'error') {
+									return chat.choices[0].message;
+								}
 							}
 						})
 						.concat(message),
@@ -69,7 +74,9 @@ const Chat = () => {
 					/>
 				</div>
 				<div className={Styles.chatSend}>
-					<button onClick={() => (isChat ? handleSendChatValue() : null)}>
+					<button
+						className={Styles.chatSendBtn}
+						onClick={() => handleSendChatValue()}>
 						Send
 					</button>
 				</div>
