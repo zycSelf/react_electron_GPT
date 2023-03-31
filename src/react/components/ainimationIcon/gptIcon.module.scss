@@ -5,6 +5,7 @@
 	width: 40px;
 	position: relative;
 	color: $themeColor;
+	@include noSelect;
 	.rotate1 {
 		display: block;
 		height: 40px;
@@ -36,9 +37,23 @@
 		animation: rotate3 3s ease-in-out infinite;
 	}
 	.title {
-		font-size: 15px;
-		font-weight: bolder;
+		--fill-color: #409eff;
 		position: relative;
+		display: block;
+		padding: 4px 0;
+		font: 700 15px Raleway, sans-serif;
+		text-decoration: none;
+		text-transform: uppercase;
+		-webkit-text-stroke: 1px var(--fill-color);
+		background: linear-gradient(var(--fill-color) 0 100%) left / 0 no-repeat;
+		color: transparent;
+		transition: 0.5s linear;
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-app-region: no-drag;
+		&:hover {
+			background-size: 100%;
+		}
 	}
 }
 

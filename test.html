@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style type="text/css">
+    @import '../../style/layout.scss';
+
+    .titleBox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        width: 100px;
+        position: relative;
+        color: #409eff;
+    }
+
+    .rotate1 {
+        display: block;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        background-color: transparent;
+        border: 1px solid #409eff;
+        border-radius: 50%;
+        animation: rotate1 2s ease-in-out infinite;
+    }
+
+    .rotate2 {
+        display: block;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        background-color: transparent;
+        border: 1px solid #409eff;
+        border-radius: 50%;
+        animation: rotate2 4s ease-in-out infinite;
+    }
+
+    .rotate3 {
+        display: block;
+        height: 100px;
+        width: 100px;
+        position: absolute;
+        background-color: transparent;
+        border: 1px solid #409eff;
+        border-radius: 50%;
+        animation: rotate3 3s ease-in-out infinite;
+    }
+
+    .title {
+        --fill-color: #409eff;
+        position: relative;
+        display: block;
+        padding: 4px 0;
+        font: 700 26px Raleway, sans-serif;
+        text-decoration: none;
+        text-transform: uppercase;
+        -webkit-text-stroke: 1px var(--fill-color);
+        background: linear-gradient(var(--fill-color) 0 100%) left / 0 no-repeat;
+        color: transparent;
+        transition: 0.5s linear;
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    .title:hover {
+        background-size: 100%;
+    }
+
+    @keyframes rotate1 {
+        0% {
+            transform: rotate3d(0, 0, 0, 0deg);
+        }
+
+        100% {
+            transform: rotate3d(1, 1, 1, 360deg);
+        }
+    }
+
+    @keyframes rotate2 {
+        0% {
+            transform: rotate3d(0, 0, 0, 0deg);
+        }
+
+        100% {
+            transform: rotate3d(-1, 1, -1, 360deg);
+        }
+    }
+
+    @keyframes rotate3 {
+        0% {
+            transform: rotate3d(0, 0, 0, 0deg);
+        }
+
+        100% {
+            transform: rotate3d(1, -1, 1, 360deg);
+        }
+    }
+</style>
+
+<body>
+    <div class="titleBox">
+        <div class="rotate1"></div>
+        <div class="rotate2"></div>
+        <div class="rotate3"></div>
+        <span class="title">GPT</span>
+    </div>
+</body>
+
+</html>
