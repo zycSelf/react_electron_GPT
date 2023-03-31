@@ -25,6 +25,7 @@
     "node_modules/**",
     "dist/**",
     "output/**",
+    "test/**/*"
   ],
   "include": [
     "declare.d.ts",

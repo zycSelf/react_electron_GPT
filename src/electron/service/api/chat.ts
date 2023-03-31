@@ -55,4 +55,11 @@ const getChatJson = async (request: any) => {
 	const openaiResult = await openai.createChatCompletion(request.body);
 	return openaiResult.data;
 };
-export { getChatStream, getChatJson };
+
+const getPdf = async (request: any) => {
+	const openai = getOpenAI(request.headers.authorization);
+	const openaiResult = await openai.createChatCompletion(request.body);
+	return openaiResult.data;
+};
+
+export { getChatStream, getChatJson, getPdf };

@@ -6,6 +6,7 @@ import withDraggable from './draggable/draggable';
 import AppHeaderOperate from './appHeader/headerOperate';
 import ChatOperate from './page/chatOperate/chatOperate';
 import GPTIcon from './ainimationIcon/gptIcon';
+import RotateCard from './rotateCard/rotateCard';
 
 const Gpt = () => {
 	const [mouseEnterCard, setMouseEnterCard] = useState<boolean>(false);
@@ -44,6 +45,7 @@ const Gpt = () => {
 						<Chat />
 					</div>
 					<div className={Styles.right}>
+						{/* <RotateCard /> */}
 						<ChatOperate />
 					</div>
 				</div>

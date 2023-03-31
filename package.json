@@ -10,7 +10,8 @@
     "analyzer": "npm run lint && webpack --config ./webpack/webpack.analyzer.js",
     "lint": "eslint --fix .",
     "electron": "set NODE_ENV=development && npm run lint && tsc && electron .",
-    "app": "set NODE_ENV=production && npm run build && tsc && electron-builder"
+    "app": "set NODE_ENV=production && npm run build && tsc && electron-builder",
+    "app-win": "set NODE_ENV=production && npm run build && tsc && electron-builder -w"
   },
   "author": "zyc:879179786@qq.com",
   "license": "ISC",
@@ -22,6 +23,7 @@
     "express": "^4.18.2",
     "express-ws": "^5.0.2",
     "express-ws-routes": "^1.1.0",
+    "markdown-pdf": "^11.0.0",
     "multer": "^1.4.5-lts.1",
     "node-loader": "^2.0.0",
     "openai": "^3.2.1",

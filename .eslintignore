@@ -11,3 +11,4 @@ yarn.lock
 /babel
 index.js
 /esBuilder
+/test

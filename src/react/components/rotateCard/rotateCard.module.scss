@@ -1,0 +1,19 @@
+.scene {
+	width: 200px;
+	height: 300px;
+	perspective: 600px;
+	margin: 100px;
+	transform-style: preserve-3d;
+}
+
+.card {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 200px;
+	height: 300px;
+	background: aliceblue;
+	border: 1px solid black;
+	position: relative;
+	transition: 0.1s linear;
+}
