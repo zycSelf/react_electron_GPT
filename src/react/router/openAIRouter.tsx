@@ -1,17 +1,16 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-const Chat = lazy(() => import('../components/page/chat/chat'));
+const GPT = lazy(() => import('../components/gpt'));
+const AddApiKey = lazy(() => import('../components/page/addApiKey/addApiKey'));
 export const OpenAIRouter = (
 	<Routes>
-		<Route path={'/'} element={<div>root</div>}></Route>
-		<Route path={'openAI/'}>
-			<Route
-				path={'chat'}
-				element={
-					<Suspense fallback={<div>loading</div>}>
-						<Chat />
-					</Suspense>
-				}></Route>
-		</Route>
+		<Route path={'/'} element={<GPT />}></Route>
+		<Route
+			path={'/addApiKey'}
+			element={
+				<Suspense fallback={<div>loading</div>}>
+					<AddApiKey />
+				</Suspense>
+			}></Route>
 	</Routes>
 );

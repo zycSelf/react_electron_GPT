@@ -12,27 +12,31 @@
 }
 @mixin ask {
 	@include chat;
+	transform-style: preserve-3d;
 	&::after {
 		content: '';
 		display: block;
-		width: 0;
-		height: 0;
-		border: 10px solid black;
+		width: 5px;
+		height: 5px;
+		border: 1px solid #409eff;
+		background: #ffffff;
+		transform: rotate(45deg);
 		position: absolute;
-		right: -18px;
-		top: 5px;
+		right: -4px;
 	}
 }
 @mixin answer {
 	@include chat;
+	transform-style: preserve-3d;
 	&::after {
 		content: '';
 		display: block;
-		width: 0;
-		height: 0;
-		border: 10px solid black;
+		width: 5px;
+		height: 5px;
+		border: 1px solid #409eff;
+		background: #ffffff;
+		transform: rotate(45deg);
 		position: absolute;
-		left: -18px;
-		top: 5px;
+		left: -4px;
 	}
 }

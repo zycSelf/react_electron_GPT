@@ -70,6 +70,7 @@ function IpcOperate() {
 			resizable: false,
 			parent: mainWindow,
 		});
+		apiKeyWindow.loadURL('http://localhost:3000/#/addApiKey');
 		apiKeyWindow.on('ready-to-show', () => {
 			apiKeyWindow.show();
 		});

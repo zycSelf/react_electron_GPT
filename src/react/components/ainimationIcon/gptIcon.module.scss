@@ -6,82 +6,145 @@
 	position: relative;
 	color: $themeColor;
 	@include noSelect;
-	.rotate1 {
-		display: block;
-		height: 40px;
+	.surround {
+		-webkit-app-region: no-drag;
 		width: 40px;
-		position: absolute;
-		background-color: $transparent;
-		border: 1px solid $themeColor;
-		border-radius: 50%;
-		animation: rotate1 2s ease-in-out infinite;
-	}
-	.rotate2 {
-		display: block;
 		height: 40px;
-		width: 40px;
-		position: absolute;
-		background-color: $transparent;
-		border: 1px solid $themeColor;
-		border-radius: 50%;
-		animation: rotate2 4s ease-in-out infinite;
-	}
-	.rotate3 {
-		display: block;
-		height: 40px;
-		width: 40px;
-		position: absolute;
-		background-color: $transparent;
-		border: 1px solid $themeColor;
-		border-radius: 50%;
-		animation: rotate3 3s ease-in-out infinite;
-	}
-	.title {
-		--fill-color: #409eff;
 		position: relative;
+		transform-style: preserve-3d;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		&:hover {
+			&::before {
+				background-size: 100%;
+			}
+		}
+	}
+
+	.surround::before {
+		content: 'GPT';
 		display: block;
-		padding: 4px 0;
-		font: 700 15px Raleway, sans-serif;
-		text-decoration: none;
-		text-transform: uppercase;
-		-webkit-text-stroke: 1px var(--fill-color);
-		background: linear-gradient(var(--fill-color) 0 100%) left / 0 no-repeat;
+		font: 700 14px 'Helvetica Neue', Helvetica;
+		background: linear-gradient($themeColor 0 100%) left / 0 no-repeat;
 		color: transparent;
+		-webkit-text-stroke: 1px $themeColor;
 		transition: 0.5s linear;
 		-webkit-background-clip: text;
 		background-clip: text;
-		-webkit-app-region: no-drag;
-		&:hover {
-			background-size: 100%;
+	}
+
+	.ring1 {
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $themeColor;
+		animation: ringRotate1 2s linear infinite;
+	}
+
+	.ring2 {
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $themeColor;
+		animation: ringRotate2 2s linear infinite;
+	}
+
+	.ring3 {
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $themeColor;
+		animation: ringRotate3 3s linear infinite;
+	}
+
+	.ring4 {
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $themeColor;
+		animation: ringRotate4 3s linear infinite;
+	}
+
+	.ring5 {
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $themeColor;
+		animation: ringRotate5 4s linear infinite;
+	}
+
+	.ring6 {
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		border-radius: 50%;
+		border: 1px solid $themeColor;
+		animation: ringRotate6 4s linear infinite;
+	}
+
+	@keyframes ringRotate1 {
+		0% {
+			transform: rotate3d(0, 0, 0, 0deg);
+		}
+
+		100% {
+			transform: rotate3d(1, 1, 1, 360deg);
 		}
 	}
-}
 
-@keyframes rotate1 {
-	0% {
-		transform: rotate3d(0, 0, 0, 0deg);
+	@keyframes ringRotate2 {
+		0% {
+			transform: rotate3d(0, 0, 0, 0deg);
+		}
+
+		100% {
+			transform: rotate3d(1, -1, 1, 360deg);
+		}
 	}
 
-	100% {
-		transform: rotate3d(1, 1, 1, 360deg);
-	}
-}
-@keyframes rotate2 {
-	0% {
-		transform: rotate3d(0, 0, 0, 0deg);
+	@keyframes ringRotate3 {
+		0% {
+			transform: rotate3d(0, 0, 0, 0deg);
+		}
+
+		100% {
+			transform: rotate3d(-1, 1, 1, 360deg);
+		}
 	}
 
-	100% {
-		transform: rotate3d(-1, 1, -1, 360deg);
-	}
-}
+	@keyframes ringRotate4 {
+		0% {
+			transform: rotate3d(0, 0, 0, 0deg);
+		}
 
-@keyframes rotate3 {
-	0% {
-		transform: rotate3d(0, 0, 0, 0deg);
+		100% {
+			transform: rotate3d(1, 1, 1, 0deg);
+		}
 	}
 
-	100% {
-		transform: rotate3d(1, -1, 1, 360deg);
+	@keyframes ringRotate5 {
+		0% {
+			transform: rotate3d(0, 0, 0, 0deg);
+		}
+
+		100% {
+			transform: rotate3d(0, 1, 1, 360deg);
+		}
+	}
+
+	@keyframes ringRotate6 {
+		0% {
+			transform: rotate3d(0, 0, 0, 0deg);
+		}
+
+		100% {
+			transform: rotate3d(1, 0, 1, 360deg);
+		}
 	}
 }

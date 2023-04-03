@@ -7,6 +7,7 @@ import AppHeaderOperate from './appHeader/headerOperate';
 import ChatOperate from './page/chatOperate/chatOperate';
 import GPTIcon from './ainimationIcon/gptIcon';
 import RotateCard from './rotateCard/rotateCard';
+import { HashRouter } from 'react-router-dom';
 
 const Gpt = () => {
 	const [mouseEnterCard, setMouseEnterCard] = useState<boolean>(false);

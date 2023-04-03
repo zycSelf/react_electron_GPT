@@ -1,5 +1,6 @@
 @import '../../../../style/avatar.scss';
 @import '../../../../style/chat.scss';
+@import '../../../../style/layout.scss';
 .ask {
 	display: flex;
 	height: auto;
@@ -9,10 +10,11 @@
 	margin: 10px;
 	.askContent {
 		@include ask;
-		background-color: deepskyblue;
+		background-color: $basicWhite;
+		border: 1px solid $themeColor;
 		position: relative;
 		&::after {
-			border-color: transparent transparent transparent deepskyblue;
+			border-color: $themeColor $themeColor $transparent $transparent;
 		}
 	}
 }

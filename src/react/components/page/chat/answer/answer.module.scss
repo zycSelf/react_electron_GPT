@@ -11,7 +11,8 @@
 	.answerContent {
 		@include answer;
 		white-space: pre-wrap;
-		background-color: aquamarine;
+		background-color: $basicWhite;
+		border: 1px solid $themeColor;
 		position: relative;
 		flex-direction: column;
 		.answerError {
@@ -21,7 +22,7 @@
 			white-space: pre-wrap;
 		}
 		&::after {
-			border-color: transparent aquamarine transparent transparent;
+			border-color: $transparent $transparent $themeColor $themeColor;
 		}
 	}
 }
