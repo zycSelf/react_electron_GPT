@@ -6,7 +6,7 @@ export const OpenAIAPIConfig = {
 	chatApi: {
 		config: {
 			model: 'gpt-3.5-turbo',
-			max_tokens: 400,
+			// max_tokens: 400,
 			stream: stream,
 		},
 	},

@@ -5,9 +5,11 @@ import { Provider } from 'react-redux';
 import DraggableGPT from './components/gpt';
 import { HashRouter } from 'react-router-dom';
 import { OpenAIRouter } from './router/openAIRouter';
+import Father from './father';
 const root = createRoot(document.getElementById('root') as HTMLElement);
 root.render(
 	<Provider store={store}>
-		<HashRouter>{OpenAIRouter}</HashRouter>
+		{/* <HashRouter>{OpenAIRouter}</HashRouter> */}
+		<Father />
 	</Provider>,
 );
